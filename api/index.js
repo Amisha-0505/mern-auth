@@ -9,8 +9,8 @@ mongoose
 .then(()=>{
     console.log("successfully connected");
 })
-.catch((e)=>{
-    console.log(e);
+.catch((err)=>{
+    console.log(err);
 })
 
 const app=express();
