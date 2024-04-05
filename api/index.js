@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/auth.route.js'
-
+import cors from 'cors';
 
 dotenv.config();
 
@@ -18,9 +18,9 @@ mongoose
 
 const app=express();
 app.use(express.json());
-
+app.use(cors());
 app.listen(3000,()=>{
-    console.log("Server Listening as ppost 3000");
+    console.log("Server Listening as port 3000");
 })
 
 
