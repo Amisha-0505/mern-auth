@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
+import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSlice'
+import {useDispatch,useSelector} from 'react-redux'
 
 export default function SignIp() {
   const [formData, setFormData] = useState({});
-  const [error,setError]=useState(false);
-  const [loading,setLoading]=useState(false);
+  const {error,loading}=useSelector((state)=>state.user);
   const navigate=useNavigate();
-
+  const disptach=useDispatch();
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   const handleSubmit=async(e)=>{
     e.preventDefault();
     try{
-      setLoading(true);
-      setError(false);
+      disptach(signInStart());
       const response=await fetch("http://localhost:3000/api/auth/signin", {
       method: 'POST',
       headers: {
@@ -25,16 +26,14 @@ export default function SignIp() {
     
       const data=await response.json();
       console.log(data);
-      setLoading(false);
-     if(data.success===false){
-      setError(true);
-      return;
-     }
-     navigate('/');
+      if(data.success===false){
+        disptach(signInFailure(data));
+        return;
+      }
+      disptach(signInSuccess(data));
+      navigate('/');
     }catch(err){
-      setLoading(false);
-      setError(true);
-      // console.log(err);
+      disptach(signInFailure(err));
     }
   }
   //console.log(formData);
@@ -68,7 +67,7 @@ export default function SignIp() {
           <span className='text-sky-500'>sign-up</span>
         </Link>
       </div>
-      <p className='text-red-700 mt-5'>{error && 'something wend wrong!'}</p>
+      <p className='text-red-700 mt-5'>{error ? error.message || 'something wend wrong!':''}</p>
     </div>
   )
 }
