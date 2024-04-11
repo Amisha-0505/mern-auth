@@ -30,7 +30,11 @@ export const signin = async (req, res, next) => {
       const expiryDate = new Date(Date.now() + 3600000); // 1 hour
       // console.log(validUser._id);
       res
-        .cookie('access_token', token, { httpOnly: true,expirys:expiryDate })
+        .cookie('access_token', token, { 
+          expirys:expiryDate, 
+          httpOnly: true,
+          sameSite: "lax",
+          secure: true, })
         .status(200)
         .json(rest);
     } catch (error) {
@@ -48,6 +52,8 @@ export const google=async(req,res,next)=>{
       res
         .cookie('access_token', token, {
           httpOnly: true,
+          sameSite: "lax",
+          secure: true,
           expires: expiryDate,
         })
         .status(200)
@@ -72,6 +78,8 @@ export const google=async(req,res,next)=>{
       res
         .cookie('access_token', token, {
           httpOnly: true,
+          sameSite: "lax",
+          secure: true,
           expires: expiryDate,
         })
         .status(200)
