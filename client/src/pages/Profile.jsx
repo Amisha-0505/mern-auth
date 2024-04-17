@@ -4,6 +4,7 @@ import {getStorage, ref, uploadBytesResumable,getDownloadURL} from 'firebase/sto
 import {app} from '../firebase'
 import {useDispatch} from 'react-redux'
 import { updateUserStart,updateUserFailure,updateUserSuccess } from '../redux/user/userSlice';
+import axios from 'axios';
 // import { set } from 'mongoose';
 
 export default function Profile() {
@@ -50,16 +51,10 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`http://localhost:3000/api/user/update/${currentUser._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      },{
-        credentials: 'include',
-      });
-      const data = await res.json();
+      const res = await axios.post(`http://localhost:3000/api/user/update/${currentUser._id}`, 
+      {formData}
+    );
+      const data = await res.data;
       console.log(data);
       if (data.success === false) {
         dispatch(updateUserFailure(data));

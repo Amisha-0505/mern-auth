@@ -9,24 +9,23 @@ export const test=(req,res)=>{
 }
 
 export const updateUser=async(req,res,next)=>{
-  console.log(req,user.id);
-  console.log(req.params.id);
     if (req.user.id !== req.params.id) {
         return next(errorHandler(401, 'You can update only your account!'));
     }
       try {
-        if (req.body.password) {
-          req.body.password = bcryptjs.hashSync(req.body.password, 10);
+        let {userPassword,email,username,profilePicture}=req.body.formData;
+        if (userPassword) {
+          userPassword = bcryptjs.hashSync(userPassword, 10);
         }
     
         const updatedUser = await User.findByIdAndUpdate(
           req.params.id,
           {
             $set: {
-              username: req.body.username,
-              email: req.body.email,
-              password: req.body.password,
-              profilePicture: req.body.profilePicture,
+              username: username,
+              email: email,
+              password: userPassword,
+              profilePicture: profilePicture,
             },
           },
           { new: true }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { OAuth } from '../components/OAuth';
+import axios from 'axios';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -16,15 +17,11 @@ export default function SignUp() {
     try{
       setLoading(true);
       setError(false);
-      const response=await fetch("http://localhost:3000/api/auth/signup", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-      });
+      const response=await axios.post("http://localhost:3000/api/auth/signup", 
+      {formData}
+      );
     
-      const data=await response.json();
+      const data=await response.data;
       console.log(data);
       setLoading(false);
      if(data.success===false){

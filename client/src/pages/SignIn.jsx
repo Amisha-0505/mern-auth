@@ -3,6 +3,7 @@ import { Link,useNavigate } from 'react-router-dom'
 import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSlice'
 import {useDispatch,useSelector} from 'react-redux'
 import { OAuth } from '../components/OAuth';
+import axios from 'axios';
 
 export default function SignIp() {
   const [formData, setFormData] = useState({});
@@ -17,15 +18,11 @@ export default function SignIp() {
     e.preventDefault();
     try{
       disptach(signInStart());
-      const response=await fetch("http://localhost:3000/api/auth/signin", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-      });
+      const response=await axios.post("http://localhost:3000/api/auth/signin", 
+        {formData}
+      );
     
-      const data=await response.json();
+      const data=await response.data;
       console.log(data);
       if(data.success===false){
         disptach(signInFailure(data));
