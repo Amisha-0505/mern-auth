@@ -5,6 +5,7 @@ import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/auth.route.js'
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use(cors({
   }));
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(morgan('dev'))
 app.listen(3000,()=>{
     console.log("Server Listening as port 3000");
 })
