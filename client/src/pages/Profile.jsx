@@ -13,7 +13,6 @@ export default function Profile() {
   const [image,setImage]=useState(undefined);
   const [imagePercent,setImagePercent]=useState(0);
   const [imageError,setImageError]=useState(false);
-  // console.log(formData);
   const { currentUser,error,loading} = useSelector((state) => state.user);
   const[formData,setFormData]=useState({profilePicture:currentUser.profilePicture});
 
@@ -55,7 +54,6 @@ export default function Profile() {
       {formData}
     );
       const data = await res.data;
-      console.log(data);
       if (data.success === false) {
         dispatch(updateUserFailure(data));
         return;
@@ -71,7 +69,7 @@ export default function Profile() {
     try {
       dispatch(deleteUserStart());
       const res = await axios.delete(`http://localhost:3000/api/user/delete/${currentUser._id}`);
-      // console.log(res.data)
+
       const data = await res.data;
       if (data.success === false) {
         dispatch(deleteUserFailure(data));

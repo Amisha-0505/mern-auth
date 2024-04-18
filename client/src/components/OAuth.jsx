@@ -14,8 +14,7 @@ export const OAuth = () => {
             const auth = getAuth(app);
 
             const result = await signInWithPopup(auth, provider);
-            // console.log(result)
-            // console.log(result.user)
+
             const res = await axios.post('http://localhost:3000/api/auth/google', 
                 {
                     name: result.user.displayName,
@@ -24,7 +23,6 @@ export const OAuth = () => {
                 }
             );
             const data = await res.data;
-            console.log(data);
             dispatch(signInSuccess(data));
             navigate('/');
         }catch(error){

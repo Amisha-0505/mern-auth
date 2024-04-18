@@ -23,7 +23,7 @@ export default function SignIp() {
       );
     
       const data=await response.data;
-      console.log(data);
+      // console.log(data);
       if(data.success===false){
         disptach(signInFailure(data));
         return;
