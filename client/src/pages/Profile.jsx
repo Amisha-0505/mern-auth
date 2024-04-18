@@ -7,6 +7,8 @@ import { updateUserStart,updateUserFailure,updateUserSuccess, deleteUserStart,de
 import axios from 'axios';
 // import { set } from 'mongoose';
 
+export const baseurl=import.meta.env.VITE_BASEURL;
+
 export default function Profile() {
   const dispatch=useDispatch();
   const fileRef=useRef(null);
@@ -50,7 +52,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await axios.post(`http://localhost:3000/api/user/update/${currentUser._id}`, 
+      const res = await axios.post(`${baseurl}/api/user/update/${currentUser._id}`, 
       {formData}
     );
       const data = await res.data;
@@ -68,7 +70,7 @@ export default function Profile() {
   const handleDeleteAccount = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await axios.delete(`http://localhost:3000/api/user/delete/${currentUser._id}`);
+      const res = await axios.delete(`${baseurl}/api/user/delete/${currentUser._id}`);
 
       const data = await res.data;
       if (data.success === false) {
@@ -84,7 +86,7 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     try {
-      await axios.get('http://localhost:3000/api/auth/signout');
+      await axios.get(`${baseurl}/api/auth/signout`);
       dispatch(signOut())
     } catch (error) {
       console.log(error);

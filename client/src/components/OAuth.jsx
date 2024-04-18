@@ -5,6 +5,8 @@ import { signInSuccess } from '../redux/user/userSlice';
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
+import { baseurl } from '../pages/Profile';
+
 export const OAuth = () => {
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -15,7 +17,7 @@ export const OAuth = () => {
 
             const result = await signInWithPopup(auth, provider);
 
-            const res = await axios.post('http://localhost:3000/api/auth/google', 
+            const res = await axios.post(`${baseurl}/api/auth/google`, 
                 {
                     name: result.user.displayName,
                     email: result.user.email,
