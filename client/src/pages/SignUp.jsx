@@ -19,7 +19,7 @@ export default function SignUp() {
       setLoading(true);
       setError(false);
       const response=await axios.post(`${baseurl}/api/auth/signup`, 
-      {formData}
+      {formData},{ withCredentials: true }
       );
     
       const data=await response.data;
